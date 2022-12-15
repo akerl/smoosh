@@ -100,27 +100,35 @@ func copySource(path, root string, s *Source) error {
 			return err
 		}
 
-		exists, err := pathExists(targetItem)
+		uptodate, err := isUpToDate(contents, targetItem)
 		if err != nil {
 			return err
 		}
-
-		if exists {
-			destContents, err := os.ReadFile(targetItem)
-			if err != nil {
-				return err
-			}
-			newHash := sha256.Sum256(contents)
-			oldHash := sha256.Sum256(destContents)
-			if newHash == oldHash {
-				return nil
-			}
+		if uptodate {
+			return nil
 		}
 
 		fmt.Printf("(%s) Installing %s\n", s.GetName(), item)
-		//return os.WriteFile(targetItem, contents, info.Mode())
-		return nil
+		return os.WriteFile(targetItem, contents, info.Mode())
 	})
+}
+
+func isUpToDate(contents []byte, file string) (bool, error) {
+	exists, err := pathExists(file)
+	if err != nil {
+		return false, err
+	}
+	if !exists {
+		return false, nil
+	}
+
+	destContents, err := os.ReadFile(file)
+	if err != nil {
+		return false, err
+	}
+	newHash := sha256.Sum256(contents)
+	oldHash := sha256.Sum256(destContents)
+	return newHash == oldHash, nil
 }
 
 func shouldIgnore(item string, list []string) (bool, error) {
@@ -128,7 +136,7 @@ func shouldIgnore(item string, list []string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if defaultIgnore.MatchString(item) == true {
+	if defaultIgnore.MatchString(item) {
 		return true, nil
 	}
 	for _, ignoreString := range list {

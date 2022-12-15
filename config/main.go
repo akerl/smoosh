@@ -28,6 +28,7 @@ type Config struct {
 	TmpDir  string   `json:"tmpdir"`
 }
 
+// NewConfig loads a config from a given file or the default location
 func NewConfig(file string) (Config, error) {
 	var c Config
 	var err error
@@ -50,6 +51,7 @@ func NewConfig(file string) (Config, error) {
 	return c, err
 }
 
+// GetName parses the name for a source
 func (s *Source) GetName() string {
 	if s.Name == "" {
 		parts := strings.Split(s.URL, "/")
@@ -58,6 +60,7 @@ func (s *Source) GetName() string {
 	return s.Name
 }
 
+// GetRoot parses the root location for copying
 func (c *Config) GetRoot() (string, error) {
 	if c.Root == "" {
 		homedir, err := os.UserHomeDir()
@@ -69,6 +72,7 @@ func (c *Config) GetRoot() (string, error) {
 	return c.Root, nil
 }
 
+// GetTmpDir parses the tmpdir for managing source repos
 func (c *Config) GetTmpDir() (string, error) {
 	if c.TmpDir == "" {
 		homedir, err := os.UserHomeDir()
@@ -80,6 +84,7 @@ func (c *Config) GetTmpDir() (string, error) {
 	return c.TmpDir, nil
 }
 
+// Sync updates a config set of sources
 func (c *Config) Sync() error {
 	for _, s := range c.Sources {
 		err := s.Sync(c)
@@ -90,6 +95,7 @@ func (c *Config) Sync() error {
 	return nil
 }
 
+// Sync updates a single source
 func (s *Source) Sync(c *Config) error {
 	tmpdir, err := c.GetTmpDir()
 	if err != nil {
