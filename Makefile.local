@@ -1,0 +1,2 @@
+PACKAGE = smoosh
+VERSION_VAR_PATH = version.Version
