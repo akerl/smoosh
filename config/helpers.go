@@ -124,7 +124,7 @@ func copySource(path, root string, s *Source) error {
 }
 
 func shouldIgnore(item string, list []string) (bool, error) {
-	defaultIgnore, err := regexp.Compie("(^|/)(.git|.gitignore|.gitmodules)(/|$)")
+	defaultIgnore, err := regexp.Compile("(^|/)(.git|.gitignore|.gitmodules)(/|$)")
 	if err != nil {
 		return false, err
 	}
