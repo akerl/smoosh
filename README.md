@@ -1,7 +1,7 @@
 smoosh
 =========
 
-[![GitHub Workflow Status](https://img.shields.io/actions/github/workflow/status/akerl/smoosh/build.yml?branch=main)](https://github.com/akerl/smoosh/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/akerl/smoosh/build.yml?branch=main)](https://github.com/akerl/smoosh/actions)
 [![GitHub release](https://img.shields.io/github/release/akerl/smoosh.svg)](https://github.com/akerl/smoosh/releases)
 [![License](https://img.shields.io/github/license/akerl/smoosh)](https://github.com/akerl/smoosh/blob/master/LICENSE)
 
